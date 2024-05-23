@@ -9,7 +9,7 @@ class PostBaseSerializer(serializers.Serializer): #기본 serializer
     content = serializers.CharField()
     created_at = serializers.DateTimeField(required=False)
     view_count = serializers.IntegerField()
-    writer = serializers.PrimaryKeyRelatedField(queryset=get_user_model().objects.all())
+    writer = serializers.IntegerField()
     bad_post = serializers.BooleanField()
 
     # create 추가
@@ -18,7 +18,7 @@ class PostBaseSerializer(serializers.Serializer): #기본 serializer
         post = Post.objects.create(
             content = validated_data['content'],
             view_count = validated_data['view_count'],
-            writer = validated_data['writer'],
+            writer = User.objects.get(id=validated_data['writer']),
         )
         return post
 
